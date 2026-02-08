@@ -1,0 +1,64 @@
+﻿<Window x:Class="EarthquakeMonitor.GraphsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Analisi Grafica Terremoti" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Background="#F0F0F0">
+        <TabControl Margin="10" BorderThickness="0" Background="White">
+
+            <TabItem Header=" 🌍 Mappa Epicentri " FontSize="14">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Distribuzione Geografica (Puntini Rossi = Epicentri)" 
+                               FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
+
+                    <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+                        <Canvas x:Name="MapCanvas" ClipToBounds="True">
+                            <Canvas.Background>
+                                <ImageBrush ImageSource="pack://application:,,,/world_map.png" Stretch="Fill"/>
+                            </Canvas.Background>
+                        </Canvas>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header=" 📊 Magnitudo " FontSize="14">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Numero di eventi per classe di Magnitudo" 
+                               FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
+
+                    <Border Grid.Row="1" BorderBrush="#DDD" BorderThickness="1" Background="White">
+                        <Canvas x:Name="MagHistogramCanvas" Margin="20"/>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header=" 🏆 Top Zone " FontSize="14">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Le 10 zone più colpite (Top Frequenza)" 
+                               FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="LocationsPanel" Margin="10"/>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

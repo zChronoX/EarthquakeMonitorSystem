@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  # 1. DATABASE
+  mongodb:
+    image: mongo:latest
+    container_name: earthquake-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  # 2. CORE BACKEND (GO)
+  backend-go:
+    build: ./backend-go
+    container_name: earthquake-go
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+    # HEALTHCHECK: Docker controlla ogni 5s se Go risponde
+
+
+  # 3. DATA INGESTION (PYTHON A)
+  sensor-agent:
+    build: ./data-ingestion
+    container_name: earthquake-sensor
+    ports:
+      - "5001:5001" # Esposto per il server Flask interno (Trigger Manuale)
+    depends_on:
+      - backend-go
+    environment:
+      - BACKEND_URL=http://backend-go:8080/api/ingest
+
+  # 4. ANALYTICS ENGINE (PYTHON B)
+  analytics-service:
+    build: ./analytics-service
+    container_name: earthquake-analytics
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017
+
+volumes:
+  mongo-data:

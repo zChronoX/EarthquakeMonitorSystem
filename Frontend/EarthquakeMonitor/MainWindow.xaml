@@ -1,0 +1,108 @@
+﻿<Window x:Class="EarthquakeMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:EarthquakeMonitor"
+        Title="Earthquake Monitor System" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <local:MagnitudeToColorConverter x:Key="MagConverter" />
+    </Window.Resources>
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#F0F8FF" BorderBrush="#2196F3" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,0,0,15">
+            <StackPanel>
+                <TextBlock Text="📊 ANALISI GENERALE DEL SISTEMA" FontWeight="Bold" Foreground="#1976D2"/>
+                <TextBlock x:Name="TxtSummary" Text="Caricamento dati in corso..." TextWrapping="Wrap" Margin="0,5,0,5" FontSize="14"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="LblTotal" Text="Eventi Totali: 0" Margin="0,0,15,0" FontWeight="Bold"/>
+                    <TextBlock x:Name="LblMax" Text="Max Mag: 0.0" Foreground="Red" FontWeight="Bold"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Button x:Name="BtnRefresh" Content="🔄 Aggiorna (1h)" Padding="10,5" Click="BtnRefresh_Click" Background="#E8E272"/>
+                <Button Content="☀️ 24 Ore" Margin="5,0,0,0" Padding="10,5" Click="BtnFetch24Hours_Click" Background="#FFF176"/>
+                <Button Content="📅 7 Giorni" Margin="5,0,0,0" Padding="10,5" Click="BtnFetch7Days_Click" Background="#E8D372"/>
+                <Button Content="🗓️ 30 Giorni" Margin="5,0,0,0" Padding="10,5" Click="BtnFetch30Days_Click" Background="#EB8801"/>
+                <Button Content="⬇️ Report CSV" Margin="5,0,0,0" Padding="10,5" Click="BtnExport_Click" Background="#E1F5FE"/>
+                <Button Content="📈 Grafici" Margin="5,0,0,0" Padding="10,5" Click="BtnGraphs_Click" Background="#A2EF03"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button Content="⚠️ Simula Terremoto" Background="#EB5B25" Padding="10,5" Click="BtnSimulate_Click"/>
+                <Button Content="🗑️ Pulizia DB" Padding="10,5" Click="BtnCleanup_Click" Margin="5,0,0,0" Background="#EB8E38"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <DataGrid x:Name="GridEarthquakes" AutoGenerateColumns="False" IsReadOnly="True" 
+                      BorderBrush="LightGray" BorderThickness="1">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="{Binding Magnitude, Converter={StaticResource MagConverter}}"/>
+                    </Style>
+                </DataGrid.RowStyle>
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="80"/>
+                    <DataGridTextColumn Header="Luogo" Binding="{Binding Place}" Width="*"/>
+                    <DataGridTextColumn Header="Magnitudo" Binding="{Binding Magnitude}" Width="80" FontWeight="Bold"/>
+
+                    <DataGridTextColumn Header="Prof. (km)" Binding="{Binding Depth, StringFormat=N1}" Width="80"/>
+                    <DataGridTextColumn Header="Tsunami" Binding="{Binding TsunamiStatus}" Width="70"/>
+
+                    <DataGridTextColumn Header="Data/Ora" Binding="{Binding FormattedDate}" Width="140"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <TextBlock x:Name="TxtNoData" 
+                       Text="Nessun terremoto trovato."
+                       Visibility="Collapsed" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       FontSize="18" 
+                       Foreground="Gray" 
+                       FontWeight="SemiBold"/>
+        </Grid>
+
+        <Border Grid.Row="3" Margin="0,15,0,0" BorderBrush="Gray" BorderThickness="1" Padding="10" CornerRadius="5" Background="#FAFAFA">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                <TextBlock Text="Mostra:" VerticalAlignment="Center" Margin="0,0,5,0" FontWeight="Bold"/>
+
+                <ComboBox x:Name="CmbLimit" Width="70" Margin="0,0,5,0" SelectedIndex="1" VerticalContentAlignment="Center">
+                    <ComboBoxItem Content="50" Tag="50"/>
+                    <ComboBoxItem Content="100" Tag="100"/>
+                    <ComboBoxItem Content="500" Tag="500"/>
+                    <ComboBoxItem Content="Tutti" Tag="0"/>
+                </ComboBox>
+
+                <Button Content=" Applica " Click="BtnApplyLimit_Click" Margin="0,0,20,0" Padding="10,2" Background="#DCEDC8"/>
+
+                <Rectangle Width="1" Fill="LightGray" Margin="0,0,20,0" Height="20"/>
+
+                <TextBlock Text="🌍 Filtra per Zona:" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0"/>
+                <TextBox x:Name="TxtPlaceSearch" Width="200" Padding="5" VerticalAlignment="Center" ToolTip="Scrivi qui (es. Italy, Japan)"/>
+
+                <Button Content="🔍 Cerca" Margin="10,0,0,0" Padding="15,5" Click="BtnSearch_Click" Background="#E0F7FA"/>
+                <Button Content="❌ Reset" Margin="5,0,0,0" Padding="10,5" Click="BtnResetSearch_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
