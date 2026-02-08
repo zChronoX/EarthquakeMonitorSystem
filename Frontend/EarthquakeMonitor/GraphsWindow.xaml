@@ -7,7 +7,7 @@
     <Grid Background="#F0F0F0">
         <TabControl Margin="10" BorderThickness="0" Background="White">
 
-            <TabItem Header=" 🌍 Mappa Epicentri " FontSize="14">
+            <TabItem Header=" Mappa Epicentri " FontSize="14">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -27,7 +27,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header=" 📊 Magnitudo " FontSize="14">
+            <TabItem Header=" Magnitudo " FontSize="14">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -43,7 +43,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header=" 🏆 Top Zone " FontSize="14">
+            <TabItem Header=" Top Zone " FontSize="14">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
