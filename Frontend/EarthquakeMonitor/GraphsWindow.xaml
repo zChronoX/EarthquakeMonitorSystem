@@ -18,11 +18,15 @@
                                FontSize="16" FontWeight="Bold" Foreground="#333" Margin="0,0,0,10"/>
 
                     <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
-                        <Canvas x:Name="MapCanvas" ClipToBounds="True">
-                            <Canvas.Background>
-                                <ImageBrush ImageSource="pack://application:,,,/world_map.png" Stretch="Fill"/>
-                            </Canvas.Background>
-                        </Canvas>
+                        <Viewbox Stretch="Uniform">
+                
+                            <Canvas x:Name="MapCanvas" Width="2000" Height="1000" ClipToBounds="True">
+                                <Canvas.Background>
+                                    <ImageBrush ImageSource="pack://application:,,,/world_map.png"/>
+                                </Canvas.Background>
+                            </Canvas>
+                
+                        </Viewbox>
                     </Border>
                 </Grid>
             </TabItem>

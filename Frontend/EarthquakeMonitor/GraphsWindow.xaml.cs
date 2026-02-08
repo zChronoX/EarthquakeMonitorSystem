@@ -23,6 +23,10 @@ namespace EarthquakeMonitor
             // Si deve aspettare l'evento "Loaded" (finestra caricata e visibile) perché la finestra non ha ancora una dimensione.
             this.Loaded += (s, e) => DrawMap(); // Disegna la mappa appena appare la finestra
             // Se l'utente allarga la finestra, il grafico deve ridisegnarsi per adattarsi.
+
+            // Ridisegna la mappa ogni volta che la grandezza del Canvas cambia
+            MapCanvas.SizeChanged += (s, e) => DrawMap();
+
             MagHistogramCanvas.SizeChanged += (s, e) => DrawMagnitudeHistogram();
             this.Loaded += (s, e) => DrawLocationsChart(); // Carica la classifica dei luoghi
         }
@@ -63,8 +67,8 @@ namespace EarthquakeMonitor
 
                 Ellipse dot = new Ellipse // Sintassi per creare un oggetto (Ellipse) e settare subito le sue proprietà
                 {
-                    Width = 8,
-                    Height = 8,
+                    Width = 15,
+                    Height = 15,
                     Fill = Brushes.Red,
                     Stroke = Brushes.Black,
                     StrokeThickness = 0.5,
