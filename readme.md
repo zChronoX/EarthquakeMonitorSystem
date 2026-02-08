@@ -101,4 +101,3 @@ Il progetto C# è organizzato secondo il pattern di separazione delle responsabi
 
 * Giovanni Maria Contarino, Matricola 1000007029
 * Alessia Provvidenza Tomarchio, Matricola 1000005160
-"# EarthquakeMonitorSystem" 
